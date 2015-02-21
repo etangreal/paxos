@@ -1,0 +1,68 @@
+	public synchronized void setNotifyMessageReceivedCallback(Runnable notifyMessageReceivedCallback) {
+		_notifyMessageReceivedCallback = notifyMessageReceivedCallback;
+	}
+
+	//_notifyMessageReceivedCallback
+	private synchronized void execNotifyMessageReceived()
+	{	//final String METHOD = "DoNotifyMessageReceived";
+
+		if(_notifyMessageReceivedCallback == null)
+			return;
+
+		//Debug.ToConsole(DEBUG_TYPE.RECEIVE, "--- " + CLASS + " :: " + METHOD + " :: DoNotifyMessageReceived executing... ---");
+		SwingUtilities.invokeLater(_notifyMessageReceivedCallback);
+		//Debug.ToConsole(DEBUG_TYPE.RECEIVE, "--- " + CLASS + " :: " + METHOD + " :: DoNotifyMessageReceived executed... ---");
+	}
+	
+	
+	
+	EVENTS
+	
+		private ArrayList<ActionListener> _actionListners = null;
+			_actionListners = new ArrayList<ActionListener>();
+			
+			
+public synchronized boolean addActionListener(ActionListener listener) {
+		if(_actionListners.contains(listener))
+			return false;
+
+		return _actionListners.add(listener);
+	}
+
+	public synchronized boolean removeActionListener(ActionListener listener) { 
+		return _actionListners.remove(listener);
+	}
+
+	private synchronized void raiseOnDeliveredEvent(int instance) { 
+		ActionEvent event = new ActionEvent(this, ActionEvent.ACTION_PERFORMED, Integer.toString(instance) );
+
+		for (int i = 0; i < _actionListners.size(); ++i) {
+			((ActionListener) _actionListners.get(i)).actionPerformed(event);
+		}
+	}
+	
+	
+	ONHEARBEAT
+//		Iterator<Entry<Integer,Instance>> p =  _pending.entrySet().iterator();
+//		while(p.hasNext()) {
+//			Instance inst = p.next().getValue();
+//			if(inst.isTimeout()) {
+//				_acceptors.DispatchMessage(new Message(MESSAGE_TYPE.RESEND, AGENT_TYPE.ACCEPTOR, _agentInfo, inst));
+//				inst.setTimeout(TIMEOUT);
+//			}
+//		}
+
+
+		if (_lastDelivered == null) {
+			_lastDelivered = new Instance();
+			_lastDelivered.setTimeout(RESEND_TIMEOUT);
+		}
+
+		if(_lastDelivered != null && _lastDelivered.isTimeout()) {
+			Instance inst = _lastDelivered.toNewInstance();
+			inst.I++;
+			_acceptors.DispatchMessage(new Message(MESSAGE_TYPE.RESEND, AGENT_TYPE.ACCEPTOR, _agentInfo, inst ));
+			show( Debug.ToConsole2(false, DEBUG_TYPE.PP_AA, AGENT_TYPE.LEARNER, "OnHeartbeat -> Request message resend... \n" + inst.AsDisplayString()) );
+			_lastDelivered.setTimeout(RESEND_TIMEOUT);
+		}
+	

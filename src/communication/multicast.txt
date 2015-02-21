@@ -1,0 +1,28 @@
+/*
+	private Message receiveMessageString()
+	{	final String METHOD = "receiveMessageString()";
+		
+		byte[] buffer = new byte[PACKET_SIZE];
+	    DatagramPacket packet = new DatagramPacket( buffer, buffer.length );
+
+		Message message = new Message();
+		message.setMessage("<no-message>");
+
+		try {
+			_socket.receive(packet);
+			message.setMessage( new String(packet.getData(),0,packet.getLength()) );
+		}
+        catch (SocketException e) {
+			final String OFFENDING_CODE = "SocketException::_socket.receive(packet)";
+			Debug.Error(CLASS, METHOD, OFFENDING_CODE, e.getMessage() );
+            System.err.println(e);
+        }
+		catch (IOException e) {
+			final String OFFENDING_CODE = "IOException::_socket.receive(packet)";
+			Debug.Error(CLASS, METHOD, OFFENDING_CODE, e.getMessage() );
+			e.printStackTrace();
+		}
+		
+		return message;
+	}
+*/

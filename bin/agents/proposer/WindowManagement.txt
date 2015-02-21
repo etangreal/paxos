@@ -1,0 +1,72 @@
+	//-------------------------------------------------------------------------------------------------------
+	// WINDOW MANAGEMENT
+	//-------------------------------------------------------------------------------------------------------
+
+	private void getNextInstance() {	
+		if (_iterator == null || !_iterator.hasNext())
+			_iterator = _window.entrySet().iterator();
+
+		_current = _iterator.next().getValue();
+		Debug.ToConsole2( DEBUG_TYPE.MESSAGE, AGENT_TYPE.ACCEPTOR, _current.AsDisplayString() );
+	}
+	
+	private void insertInstances(Integer iids[])
+	{
+		if (iids != null)
+			for(int i=0;i<iids.length;i++)
+				if (!_window.containsKey(iids[i]))
+					_window.put(iids[i], new ProposerInstance(iids[i],_empty));
+	}
+	
+	private void generateNextInstance()
+	{
+		
+	}
+
+	
+	private ProposerInstance[] initWindow(final int iids[], ProposerState empty) {
+		int IIDs[] = getIIDs(iids);
+
+		ProposerInstance window[] = new ProposerInstance[WINDOW_SIZE];
+		
+		for(int i=0; i<WINDOW_SIZE; i++) {
+			window[i] = new ProposerInstance(empty);
+			window[i].I = IIDs[i];
+		}
+		
+		return window;
+	}
+	
+	//generate IIDs
+	public static int[] genIIDs(int starting, int size)
+	{
+		int IIDs[] = new int[size];
+		for(int i=0;i<size;i++) {
+			IIDs[i] = i+starting;
+		}
+		
+		return IIDs;
+	}
+
+	public static int[] getIIDs(final int iids[])
+	{
+		int IIDs[] = genIIDs(1,WINDOW_SIZE);
+		
+		if(iids==null) return IIDs;
+		
+		Arrays.sort(iids);
+		int len = iids.length;
+		int iid = iids[0];
+		
+		for(int i=0; i < WINDOW_SIZE; i++)
+		{
+			if(i<=len)
+				iid=iids[i];
+			else
+				iid++;
+
+			IIDs[i]=iid;
+		}
+
+		return IIDs;
+	}

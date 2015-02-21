@@ -1,0 +1,234 @@
+import java.util.EventListener;
+
+ActionEvent 
+public void actionPerformed(ActionEvent arg0)
+
+Using the EventObject Class
+Writing an Event Producer
+Implementing the EventListener Interface
+
+SwingUtilities.invokeLater
+producer-consumer
+
+/*
+	Accept 
+		<ProposalNumber, BallotNumber, Value>
+
+	Accepted
+		<ProposalNumber, BallotNumber, Value>
+
+	Promise
+		<ProposalNumber, BallotNumber, AcceptedValue>
+
+	Propose
+		<ProposalNumber, BallotNumber>
+	
+	ProposalSubsumed
+		<ProposalNumber, BallotNumber>
+*/
+
+http://www.javapractices.com/topic/TopicAction.do?Id=45
+  serialver -show
+  
+  serialver -show -classpath "D:\Dropbox\Eclipse\Paxos\bin"
+  communication.Message
+  
+  cd "D:\Dropbox\Eclipse\Paxos\bin"
+  serialver communication.Message
+  
+  		byte[] buffer = null;
+		
+		try {
+			ByteArrayOutputStream baos = new ByteArrayOutputStream();
+			ObjectOutputStream oos = new ObjectOutputStream(baos);
+			oos.writeObject(message);
+			oos.flush();
+			baos.toByteArray();
+		} catch (IOException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		
+		int len = buffer.length;
+		byte[] data = new byte[PACKET_SIZE];
+		
+		// int -> byte[]
+		for (int i = 0; i < PACKET_SIZE; ++i) {
+			int shift = i << 3; // i * 8
+			data[3-i] = (byte)((len & (0xff << shift)) >>> shift);
+		}
+
+		DatagramPacket packet = new DatagramPacket( data, PACKET_SIZE, _group, _port );
+		
+		run a profiler, or use the difference of two calls to System.currentTimeMillis().
+		long start = System.currentTimeMillis();
+    ....
+    doSomething();
+    ....
+    long end = System.currentTimeMillis();
+    
+    
+    
+    		//Heartbeat
+		_heatbeatTimer = new Timer();
+		_heatbeatTimer.schedule( 
+			new TimerTask() {				// TimerTask Object
+				public void run() { OnHeartbeat(); } 
+			},
+			0, 								// Initial Delay
+			_heartbeatInterval				// Subsequent Interval
+		);
+		
+		javax.swing.SwingUtilities.isEventDispatchThread.
+		
+		//	         if (java.awt.EventQueue.isDispatchThread())
+//	        	 System.out.println("executing on: Event-Dispatch-Thread");
+//	         else
+//	        	 System.out.println("executing on: Worker Thread");
+
+
+
+	//state: empty
+		//--progress
+	public void D0(){
+		Debug.ToConsole(DEBUG_TYPE.STATE, "Proposer->D0");
+		current().S.D0();
+	}
+	public void S(){
+		Debug.ToConsole(DEBUG_TYPE.STATE, "Proposer->S");
+		current().S.S();
+	}
+
+	//state: p1_pending
+	public void TO1(){
+		Debug.ToConsole(DEBUG_TYPE.STATE, "Proposer->TO1");
+		current().S.TO1();
+	}
+	public void P(){
+		Debug.ToConsole(DEBUG_TYPE.STATE, "Proposer->P");
+		current().S.P();
+	}
+		//--progress
+	public void D01(){
+		Debug.ToConsole(DEBUG_TYPE.STATE, "Proposer->D01");
+		current().S.D01();
+	}
+	public void R0(){
+		Debug.ToConsole(DEBUG_TYPE.STATE, "Proposer->R0");
+		current().S.R0();
+	}
+	public void R1(){
+		Debug.ToConsole(DEBUG_TYPE.STATE, "Proposer->R1");
+		current().S.R1();
+	}
+
+	//state: p1_ready_without_value
+	public void NV(){
+		Debug.ToConsole(DEBUG_TYPE.STATE, "Proposer->NV");
+		current().S.NV();
+	}
+		//--progress
+	public void D2(){
+		Debug.ToConsole(DEBUG_TYPE.STATE, "Proposer->D2");
+		current().S.D2();
+	}
+	public void A(){
+		Debug.ToConsole(DEBUG_TYPE.STATE, "Proposer->A");
+		current().S.A();
+	}
+
+	//state: p1_ready_with_value
+		//--progress
+	public void D3(){
+		Debug.ToConsole(DEBUG_TYPE.STATE, "Proposer->D3");
+		current().S.D3();
+	}
+	public void E(){
+		Debug.ToConsole(DEBUG_TYPE.STATE, "Proposer->E");
+		current().S.E();
+	}
+
+	//state: p2_pending
+	public void TO2(){
+		Debug.ToConsole(DEBUG_TYPE.STATE, "Proposer->TO2");
+		current().S.TO2();
+	}
+		//--progress
+	public void D4(){
+		Debug.ToConsole(DEBUG_TYPE.STATE, "Proposer->D4");
+		current().S.D4();
+	}
+	public void C(){
+		Debug.ToConsole(DEBUG_TYPE.STATE, "Proposer->C");
+		current().S.C();
+	}
+
+	//state: closed
+		//--progress
+	public void D5(){
+		Debug.ToConsole(DEBUG_TYPE.STATE, "Proposer->D5");
+		current().S.D5();
+	}
+
+	//state: delivered
+	
+	
+	
+	public void displayState()
+	{
+		Debug.ToConsole(DEBUG_TYPE.STATE, "\n----------------------Empty State----------------------");
+		Debug.ToConsole(DEBUG_TYPE.STATE, this.toString() );
+		//state: empty
+			//--progress
+		this.D0();
+		this.S();
+
+		Debug.ToConsole(DEBUG_TYPE.STATE, "\n----------------------p1_pending State----------------------");
+		Debug.ToConsole(DEBUG_TYPE.STATE, this.toString() );
+		//state: p1_pending
+		this.TO1();
+		this.P();
+			//--progress
+		this.D01();
+		this.R0();
+		this.R1();
+
+		Debug.ToConsole(DEBUG_TYPE.STATE, "\n----------------------p1_ready_without_value State----------------------");
+		Debug.ToConsole(DEBUG_TYPE.STATE, this.toString() );
+		//state: p1_ready_without_value
+		this.NV();
+			//--progress
+		this.D2();
+		this.A();
+
+		Debug.ToConsole(DEBUG_TYPE.STATE, "\n----------------------p1_ready_with_value State----------------------");
+		Debug.ToConsole(DEBUG_TYPE.STATE, this.toString() );
+		//state: p1_ready_with_value
+			//--progress
+		this.D3();
+		this.E();
+
+		Debug.ToConsole(DEBUG_TYPE.STATE, "\n----------------------p2_pending State----------------------");
+		Debug.ToConsole(DEBUG_TYPE.STATE, this.toString() );
+		//state: p2_pending
+		this.TO2();
+			//--progress
+		this.D4();
+		this.C();
+
+		Debug.ToConsole(DEBUG_TYPE.STATE, "\n----------------------closed State----------------------");
+		Debug.ToConsole(DEBUG_TYPE.STATE, this.toString() );
+		//state: closed
+			//--progress
+		this.D5();
+
+		Debug.ToConsole(DEBUG_TYPE.STATE, "\n----------------------delivered State----------------------");
+		Debug.ToConsole(DEBUG_TYPE.STATE, this.toString() );
+		//state: delivered
+		
+	}//displayState
+	
+	
+	
+	invariants plural : 
+    A function, quantity, or property that remains unchanged when a specified transformation is applied.

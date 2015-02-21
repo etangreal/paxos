@@ -1,0 +1,12 @@
+Tests you should expect:
+
+
+- Test 1: Proposing 100 values (3 acceptors, 2 proposers, 2 learners). Check that learners learn values in total order, check that learners learn all values that were proposed. Repeat with 1000 and 10000 values per proposer.
+
+- Test 2: Repeat Test 1 with only 2 acceptors.
+
+- Test 3: Repeat Test 1 with only 1 acceptor.
+
+- Test 4: Learners catchup. Start 3 acceptors, 1 proposer, and 1 learner. Propose 100 values. Once finished start an additional learner and a proposer (proposing additional 100 instances. Check that learners learn values in total order, check that learners learn all values that were proposed.
+
+- Test 5: Repeat 1 with message loss

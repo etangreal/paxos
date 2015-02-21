@@ -1,0 +1,1 @@
+java -cp "./bin" Paxos proposer $1

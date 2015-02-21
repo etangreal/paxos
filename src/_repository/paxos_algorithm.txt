@@ -1,0 +1,85 @@
+/*
+	state:
+	  n_a, v_a: highest proposal # and its corresponding value this node has accepted
+	  n_h: highest proposal # seen in a prepare
+	  my_n: the last proposal # the node has used in this round of Paxos
+	  instance_h: highest instance we have accepted
+	  values: a map of past instances to values
+	  stable: "false" when running Paxos, "true" when this instance completes
+	
+	on each view change, initialize state 
+	  n_a = 0
+	  n_h = 0
+	  my_n = 0
+	  v_a = () // empty list
+	
+	run_paxos(nodes, value)
+	  stable = false
+	  c_nodes = nodes;
+	  c_value = value;
+	  proceed to Paxos Phase 1
+	
+	Paxos Phase 1
+	  a node (or perhaps several nodes) decide to be leader (i.e. manager)
+	    instance = instance_h+1
+	    my_n = max(n_h, my_n)+1, append node ID  // unique proposal number
+	    sends prepare(instance, my_n) to all nodes in c_nodes
+	
+	  if node receives prepare(instance, n):
+	    if instance <= instance_h:
+	      return oldinstance(instance, values[instance])
+	    else if n > n_h:
+	      n_h = n
+	      loghigh(n_h);
+	      return prepareres(n_a, v_a)
+	    else:
+	      return reject()
+	
+	Paxos Phase 2
+	  if leader gets oldinstance(instance, v):
+	    values[instance] = v
+	    instance_h = instance
+	    stable = true;
+	    paxos_commit(instance, v);   // this instance is done.
+	  else if leader gets reject():
+	    delay and restart paxos
+	  else if leader gets prepareres from majority of nodes in c_nodes:
+	    if any prepareres(n_i, v_i) exists such that v_i is not empty:
+	      v = non-empty value v_i corresponding to highest n_i received
+	    else leader gets to choose a value:
+	      v = c_v;
+	    send accept(instance_h+1, my_n, v) to all responders
+	  else:
+	    stable = true;
+	    paxos_abort();   // this instance is done; app should recover
+	
+	  if node gets accept(instance, n, v):
+	    if instance <= instance_h:
+	      return oldinstance(instance, values[instance])
+	    else if n >= n_h:
+	      n_a = n
+	      v_a = v
+	      logproposal(instance, n, v)
+	      return acceptres()
+	    else
+	      return reject()
+	
+	Paxos Phase 3
+	  if leader gets acceptres from a majority of c_nodes
+	    values[instance] = v;
+	    logvalue(instance, v) 
+	    stable = true;
+	    paxos_commit();  // let invoker know we are done
+	    send decide(instance_h, v) to acceptors
+	  else:
+	    stable = true;
+	    paxos_abort();
+	
+	  if node gets decide(instance, v):
+	    if instance <= instance_h:
+	      ignore the message    // or reply with oldinstance, but it won't matter
+	    else:
+	      values[instance] = v
+	      instance_h = instance
+	      logvalue(instance, v) 
+*/

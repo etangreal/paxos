@@ -1,0 +1,1 @@
+java -cp "./bin" Paxos learner $1

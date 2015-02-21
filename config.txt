@@ -1,0 +1,15 @@
+acceptors=239.0.0.1 5000
+proposers=239.0.0.1 6000
+learners=239.0.0.1 7000
+leaders=239.0.0.1 8000
+
+number_of_acceptors=3
+window_size=3
+
+proposer_heartbeat_interval=2
+acceptor_heartbeat_interval=3
+learner_heartbeat_interval=3
+
+resend_timeout=3100
+timeout_phase1and2=1000
+process_window_timer=1
